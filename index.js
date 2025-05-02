@@ -1,4 +1,4 @@
-//import express from 'express';
+import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { config } from 'dotenv';
@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 
 config();
 
-const express = require('express');
+//const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001; // usa el puerto de Render o 3001 en local
 
