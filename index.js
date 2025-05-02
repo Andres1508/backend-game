@@ -6,8 +6,9 @@ import OpenAI from 'openai';
 
 config();
 
+const express = require('express');
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT || 3001; // usa el puerto de Render o 3001 en local
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -101,8 +102,8 @@ app.post('/api/message', async (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Servidor backend escuchando en http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 
@@ -114,7 +115,7 @@ app.post('/api/reset', (req, res) => {
   res.send({ message: 'Flags limpiados exitosamente' });
 });
 
-{/*import { buscarVuelosDesdeTexto } from './utils/flightSearch';
+/*import { buscarVuelosDesdeTexto } from './utils/flightSearch';
 
 const handleUserMessage = (mensaje) => {
   // Procesar como asistente virtual
@@ -125,4 +126,4 @@ const handleUserMessage = (mensaje) => {
     agregarMensajeBot("¿En qué puedo ayudarte hoy?");
   }
 };
-*/}
+*/
