@@ -115,6 +115,10 @@ app.post('/api/reset', (req, res) => {
   res.send({ message: 'Flags limpiados exitosamente' });
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
 /*import { buscarVuelosDesdeTexto } from './utils/flightSearch';
 
 const handleUserMessage = (mensaje) => {
