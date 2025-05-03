@@ -119,6 +119,22 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
+app.get('/api/flags', (req, res) => {
+  const flags = [
+    "FLAG-RECON-001",
+    "FLAG-CONFIG-002",
+    "FLAG-DATALEAK-003",
+    "FLAG-ACCESS-004",
+    "FLAG-OVERFLOW-005",
+    "FLAG-ESCALATION-006",
+    "FLAG-INJECTION-007",
+    "FLAG-SYSTEMPROMPT-008",
+    "FLAG-LOGIC-009",
+    "FLAG-MASTER-010"
+  ];
+  res.json(flags);
+});
+
 /*import { buscarVuelosDesdeTexto } from './utils/flightSearch';
 
 const handleUserMessage = (mensaje) => {
