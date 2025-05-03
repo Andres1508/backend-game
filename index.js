@@ -10,6 +10,10 @@ config();
 const app = express();
 const PORT = process.env.PORT || 3001; // usa el puerto de Render o 3001 en local
 
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Servidor escuchando en puerto 3000');
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 
