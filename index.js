@@ -75,8 +75,6 @@ const levels = [
 app.post('/api/message', async (req, res) => {
   const { message, userId } = req.body;
 
-  res.json(respuesta);
-
   if (!userProgress[userId]) userProgress[userId] = { flags: [] };
 
   const foundFlag = levels.find(
