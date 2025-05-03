@@ -11,7 +11,8 @@ const app = express();
 const PORT = process.env.PORT || 3001; // usa el puerto de Render o 3001 en local
 
 app.use(cors());
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(express.json());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -85,7 +86,32 @@ app.post('/api/message', async (req, res) => {
     userProgress[userId].flags.push(foundFlag.flag);
   }
 
-
+  app.post('/api/validate-trigger', (req, res) => {
+    const { message, challenge, progress } = req.body;
+  
+    if (typeof message !== 'string' || typeof challenge !== 'number' || !Array.isArray(progress)) {
+      return res.status(400).json({ success: false, message: 'Parámetros inválidos.' });
+    }
+  
+    const currentLevel = levels[challenge];
+    if (!currentLevel) {
+      return res.status(404).json({ success: false, message: 'Challenge no encontrado.' });
+    }
+  
+    try {
+      const triggerMatched = currentLevel.trigger(message, progress);
+  
+      if (triggerMatched) {
+        return res.json({ success: true, flag: currentLevel.flag });
+      } else {
+        return res.json({ success: false });
+      }
+    } catch (error) {
+      console.error('Error evaluando trigger:', error);
+      return res.status(500).json({ success: false, message: 'Error evaluando trigger.' });
+    }
+  });
+  
   // Llamada a OpenAI
   const completion = await openai.chat.completions.create({
     messages: [
