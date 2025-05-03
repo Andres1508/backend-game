@@ -14,39 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-//NUEVO
-function procesarMensaje(userMessage) {
-  const currentTime = Date.now();
-  
-  // --- Registrar tiempo del mensaje recibido ---
-  userMessageTimestamps = userMessageTimestamps.filter(t => (currentTime - t) < 10000); // Solo últimos 10 segundos
-  userMessageTimestamps.push(currentTime);
 
-  const lowerCaseMessage = userMessage.toLowerCase();
-
-  // --- Falla 1: Debug Mode ---
-  if (lowerCaseMessage.includes('debug') || lowerCaseMessage.includes('modo desarrollador') || lowerCaseMessage.includes('log')) {
-    return { reply: "🛠️ Debug info: FLAG{debug_mode_enabled}" };
-  }
-
-  // --- Falla 2: Confusión por autenticación ---
-  if (lowerCaseMessage.includes('código de autorización') || lowerCaseMessage.includes('contraseña')) {
-    return { reply: "🔓 Acceso concedido. Información interna: FLAG{auth_bypass_success}" };
-  }
-
-  // --- Falla 3: Sobrecarga de contexto ---
-  if (userMessageTimestamps.length >= 5) {
-    userMessageTimestamps = []; // Limpiamos para evitar múltiples disparos
-    return { reply: "🤯 Error de contexto: FLAG{context_overload_flag}" };
-  }
-
-  // --- Respuesta normal del asistente ---
-  return { reply: "Hola, soy tu asistente virtual. ¿En qué puedo ayudarte?" };
-}
-
-module.exports = { procesarMensaje };
-
-//NUEVO
 // Estado de juego en memoria (temporal)
 const userProgress = {}; // Ejemplo: { "usuario123": { flags: ["FLAG-RECON-001"] } }
 
@@ -106,8 +74,6 @@ const levels = [
 
 app.post('/api/message', async (req, res) => {
   const { message, userId } = req.body;
-
-  const respuesta = procesarMensaje(message);
 
   res.json(respuesta);
 
