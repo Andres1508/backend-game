@@ -206,6 +206,22 @@ async function actualizarFlagsJugador(playerName, cantidadFlags) {
   }
 }
 
+function resetearTodosLosJugadores() {
+  const jugadores = leerJugadores();
+
+  const jugadoresReseteados = jugadores.map(jugador => ({
+    ...jugador,
+    flagsEncontrados: 0
+  }));
+
+  guardarJugadores(jugadoresReseteados);
+
+  console.log('Todos los jugadores fueron reseteados.');
+}
+
+// Llamamos a la función al iniciar el servidor
+resetearTodosLosJugadores();
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
